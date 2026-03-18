@@ -2,9 +2,12 @@
   "name": "event-manager",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.23.0",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "dev": "next dev",
-    "build": "next build",
+    "build": "npx convex deploy --cmd 'next build'",
+    "build:dev": "npx convex dev --until-success && next build",
     "start": "next start",
     "lint": "eslint"
   },
