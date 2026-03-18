@@ -24,23 +24,34 @@ function AdminHeader() {
   };
 
   return (
-    <header className="border-b border-white/5">
+    <header
+      className="border-b"
+      style={{ borderColor: "rgba(255,255,255,0.06)" }}
+    >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <div className="flex items-center gap-8">
-          <Link href="/admin" className="text-lg font-bold text-white">
+          <Link
+            href="/admin"
+            className="text-[15px] font-bold tracking-tight text-foreground"
+          >
             EVL Social{" "}
-            <span className="text-sm font-normal text-white/40">Admin</span>
+            <span className="text-[13px] font-normal text-muted">Admin</span>
           </Link>
-          <nav className="hidden items-center gap-1 md:flex">
+          <nav className="hidden items-center gap-0.5 md:flex">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={buildHref(item.href)}
-                className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                className={`rounded-lg px-3 py-1.5 text-[13px] font-medium transition-colors ${
                   pathname === item.href
-                    ? "bg-white/10 text-white"
-                    : "text-white/40 hover:text-white"
+                    ? "text-foreground"
+                    : "text-muted hover:text-foreground"
                 }`}
+                style={
+                  pathname === item.href
+                    ? { background: "rgba(255,255,255,0.06)" }
+                    : {}
+                }
               >
                 {item.label}
               </Link>

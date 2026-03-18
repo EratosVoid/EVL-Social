@@ -41,27 +41,42 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // Loading
   if (event === undefined) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/20 border-t-white" />
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="h-7 w-7 animate-spin rounded-full border-2 border-foreground/10 border-t-accent" />
       </div>
     );
   }
 
+  // No active event
   if (event === null || !event.isActive) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <h1 className="text-4xl font-bold">Registration Closed</h1>
-          <p className="mt-4 text-lg text-white/40">
-            There are no active events right now. Check back soon!
+      <div className="flex min-h-screen flex-col items-center justify-center bg-background px-6 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div
+            className="mb-6 inline-flex items-center gap-2 rounded-full border px-3.5 py-1 text-xs font-medium tracking-wide text-muted"
+            style={{ borderColor: "rgba(255,255,255,0.08)" }}
+          >
+            No active event
+          </div>
+          <h1 className="text-4xl font-bold tracking-tight text-foreground">
+            Registration closed
+          </h1>
+          <p className="mt-3 text-muted">
+            There are no active events right now. Check back soon.
           </p>
           <Link
             href="/"
-            className="mt-8 inline-block rounded-full border border-white/10 px-6 py-3 font-medium transition-colors hover:border-white/20"
+            className="mt-8 inline-flex items-center gap-2 rounded-full border px-6 py-2.5 text-sm font-medium text-muted transition-colors hover:text-foreground"
+            style={{ borderColor: "rgba(255,255,255,0.08)" }}
           >
-            Back to Home
+            &larr; Back to home
           </Link>
         </motion.div>
       </div>
@@ -70,29 +85,54 @@ export default function RegisterPage() {
 
   const dateDisplay = formatDate(event.date);
 
+  // Success state
   if (submitted) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
-        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="max-w-md">
-          <h1 className="text-3xl font-bold">You&apos;re In!</h1>
-          <p className="mt-4 text-lg text-white/40">
-            You&apos;ve successfully registered for{" "}
-            <strong className="text-white">{event.title}</strong>.
-          </p>
-          <div className="mt-6 rounded-xl border border-white/5 p-6 text-left">
-            <p className="text-sm text-white/40">Event Details</p>
-            <p className="mt-2 font-semibold">{event.title}</p>
-            <p className="mt-1 text-white/40">{dateDisplay}</p>
-            <p className="text-white/40">{event.venue}</p>
+      <div className="flex min-h-screen flex-col items-center justify-center bg-background px-6 text-center">
+        <motion.div
+          className="max-w-md w-full"
+          initial={{ opacity: 0, scale: 0.97 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div
+            className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-full"
+            style={{
+              border: "1px solid rgba(74,222,128,0.3)",
+              background: "rgba(74,222,128,0.08)",
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
           </div>
-          <p className="mt-6 text-sm text-white/30">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+            You&apos;re in.
+          </h1>
+          <p className="mt-3 text-muted">
+            You&apos;ve registered for{" "}
+            <span className="font-medium text-foreground">{event.title}</span>.
+          </p>
+          <div
+            className="mt-6 rounded-xl p-5 text-left"
+            style={{ border: "1px solid rgba(255,255,255,0.06)", background: "rgba(255,255,255,0.02)" }}
+          >
+            <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-muted">
+              Event details
+            </p>
+            <p className="mt-3 font-semibold text-foreground">{event.title}</p>
+            <p className="mt-1 text-sm text-muted">{dateDisplay}</p>
+            <p className="text-sm text-muted">{event.venue}</p>
+          </div>
+          <p className="mt-5 text-xs text-subtle">
             A confirmation has been sent to your email and WhatsApp.
           </p>
           <Link
             href="/"
-            className="mt-6 inline-block rounded-full border border-white/10 px-6 py-3 font-medium transition-colors hover:border-white/20"
+            className="mt-6 inline-flex items-center gap-2 rounded-full border px-6 py-2.5 text-sm font-medium text-muted transition-colors hover:text-foreground"
+            style={{ borderColor: "rgba(255,255,255,0.08)" }}
           >
-            Back to Home
+            &larr; Back to home
           </Link>
         </motion.div>
       </div>
@@ -145,10 +185,16 @@ export default function RegisterPage() {
   };
 
   const inputClass =
-    "w-full rounded-xl border border-white/10 bg-transparent px-4 py-3 text-white placeholder:text-white/30 focus:border-white/25 focus:outline-none transition-colors";
+    "w-full rounded-xl border bg-transparent px-4 py-3 text-foreground placeholder:text-subtle focus:outline-none transition-colors";
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-6 py-16">
+    <div
+      className="relative flex min-h-screen items-center justify-center bg-background px-6 py-16"
+      style={{
+        backgroundImage:
+          "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(74,222,128,0.08) 0%, transparent 60%)",
+      }}
+    >
       <motion.div
         className="w-full max-w-lg"
         initial={{ opacity: 0, y: 20 }}
@@ -157,63 +203,159 @@ export default function RegisterPage() {
       >
         <Link
           href="/"
-          className="mb-8 inline-flex items-center gap-2 text-sm text-white/40 transition-colors hover:text-white"
+          className="mb-8 inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-foreground"
         >
           &larr; Back
         </Link>
 
-        <h1 className="text-3xl font-bold">
-          Register for {event.title}
-        </h1>
-        <p className="mt-2 text-white/40">
-          {dateDisplay} &middot; {event.venue}
-        </p>
+        <div className="mb-8">
+          <p className="mb-2 text-xs font-medium uppercase tracking-[0.15em] text-accent">
+            {event.title}
+          </p>
+          <h1 className="text-3xl font-bold tracking-[-0.03em] text-foreground">
+            Apply to attend
+          </h1>
+          <p className="mt-2 text-sm text-muted">
+            {dateDisplay} &middot; {event.venue}
+          </p>
+        </div>
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-white/60">
-              Full Name <span className="text-white/30">*</span>
+            <label className="mb-1.5 block text-[13px] font-medium text-muted">
+              Full Name <span className="text-subtle">*</span>
             </label>
-            <input type="text" className={inputClass} placeholder="John Doe" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+            <input
+              type="text"
+              className={inputClass}
+              style={{ borderColor: "rgba(255,255,255,0.08)" }}
+              placeholder="John Doe"
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)";
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+              }}
+            />
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-white/60">
-              Email <span className="text-white/30">*</span>
+            <label className="mb-1.5 block text-[13px] font-medium text-muted">
+              Email <span className="text-subtle">*</span>
             </label>
-            <input type="email" className={inputClass} placeholder="john@example.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+            <input
+              type="email"
+              className={inputClass}
+              style={{ borderColor: "rgba(255,255,255,0.08)" }}
+              placeholder="john@example.com"
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)";
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+              }}
+            />
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-white/60">
-              Phone / WhatsApp <span className="text-white/30">*</span>
+            <label className="mb-1.5 block text-[13px] font-medium text-muted">
+              Phone / WhatsApp <span className="text-subtle">*</span>
             </label>
-            <input type="tel" className={inputClass} placeholder="+91 98765 43210" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+            <input
+              type="tel"
+              className={inputClass}
+              style={{ borderColor: "rgba(255,255,255,0.08)" }}
+              placeholder="+91 98765 43210"
+              value={form.phone}
+              onChange={(e) => setForm({ ...form, phone: e.target.value })}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)";
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+              }}
+            />
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-white/60">Company / Startup</label>
-            <input type="text" className={inputClass} placeholder="Your company or startup name" value={form.company} onChange={(e) => setForm({ ...form, company: e.target.value })} />
+            <label className="mb-1.5 block text-[13px] font-medium text-muted">
+              Company / Startup
+            </label>
+            <input
+              type="text"
+              className={inputClass}
+              style={{ borderColor: "rgba(255,255,255,0.08)" }}
+              placeholder="Your company or startup name"
+              value={form.company}
+              onChange={(e) => setForm({ ...form, company: e.target.value })}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)";
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+              }}
+            />
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-white/60">Your Role</label>
-            <input type="text" className={inputClass} placeholder="Founder, Developer, Designer..." value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })} />
+            <label className="mb-1.5 block text-[13px] font-medium text-muted">
+              Your Role
+            </label>
+            <input
+              type="text"
+              className={inputClass}
+              style={{ borderColor: "rgba(255,255,255,0.08)" }}
+              placeholder="Founder, Developer, Designer..."
+              value={form.role}
+              onChange={(e) => setForm({ ...form, role: e.target.value })}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)";
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+              }}
+            />
           </div>
 
           {error && (
-            <p className="rounded-lg border border-white/5 px-4 py-2 text-sm text-white/60">
+            <p
+              className="rounded-lg px-4 py-2.5 text-sm text-muted"
+              style={{
+                border: "1px solid rgba(239,68,68,0.2)",
+                background: "rgba(239,68,68,0.05)",
+                color: "#f87171",
+              }}
+            >
               {error}
             </p>
           )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full rounded-xl bg-white py-3.5 font-semibold text-black transition-all hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {loading ? "Registering..." : "Register"}
-          </button>
+          <div className="pt-2">
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full rounded-xl bg-accent py-3.5 font-semibold text-background transition-all hover:bg-accent-dim disabled:cursor-not-allowed disabled:opacity-50"
+              style={{
+                boxShadow: "0 0 0 1px rgba(74,222,128,0.3), 0 4px 20px rgba(74,222,128,0.15)",
+              }}
+            >
+              {loading ? (
+                <span className="inline-flex items-center justify-center gap-2">
+                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-background/30 border-t-background" />
+                  Registering...
+                </span>
+              ) : (
+                "Register. It's free."
+              )}
+            </button>
+            <p className="mt-3 text-center text-xs text-subtle">
+              Confirmation sent to your email and WhatsApp
+            </p>
+          </div>
         </form>
       </motion.div>
     </div>
